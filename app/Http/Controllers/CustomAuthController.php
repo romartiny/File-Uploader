@@ -69,7 +69,6 @@ class CustomAuthController extends Controller
                 return back()->with('fail', 'This email if not registered');
             }
         }
-
     }
 
     public function showDashboard()
