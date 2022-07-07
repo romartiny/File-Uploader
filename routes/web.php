@@ -12,5 +12,4 @@ Route::post('/login-user', [CustomAuthController::class, 'loginUser'])->name('lo
 Route::get('/dashboard', [CustomAuthController::class, 'showDashboard'])->middleware('isLoggedIn');
 Route::get('/logout', [CustomAuthController::class, 'logout']);
 Route::get('/dashboard', [DashboardController::class, 'showFileNames'])->middleware('isLoggedIn');
-//Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('isLoggedIn');
 Route::post('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

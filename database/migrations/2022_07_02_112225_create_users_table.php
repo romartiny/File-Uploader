@@ -21,6 +21,14 @@ return new class extends Migration
             $table->string('password');
             $table->timestamps();
         });
+        Schema::create('attempts', function (Blueprint $table) {
+            $table->id();
+            $table->string('ip');
+            $table->string('email');
+            $table->integer('attempts_count')->default(0);
+            $table->timestamp('created_at');
+            $table->timestamp('ended_at');
+        });
     }
 
     /**

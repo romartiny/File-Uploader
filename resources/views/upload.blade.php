@@ -25,7 +25,7 @@
                         <div class="results">
                             @isset($fileNames)
                                 @foreach($fileNames as $file)
-                                    <p> {{ $file }}</p>
+                                    <p> Name: {{ $file }}</p>
                                 @endforeach
                             @else
                                 <p>No files</p>
@@ -43,5 +43,5 @@
     </div>
 </main>
 
-<script src="/assets/js/main.js"></script>
+<script src="/assets/js/app.js"></script>
 </body>

@@ -13,9 +13,6 @@ class DashboardController extends Controller
     {
         $req->file('file')->store('files');
         $this->uploadLog($req);
-
-        $req->file('file')->store('files');
-        $this->getExifData($req);
         $this->showFileNames();
 
         return redirect('dashboard');
@@ -27,7 +24,7 @@ class DashboardController extends Controller
         $name = File::name($req->file('file')->store('files'));
         $date = date('Y-m-d H:i:s');
         $dateFile = date('d-m-Y');
-        Storage::disk('local')->put("logs/logs-$dateFile.log", "$size bytes | $name | $date");
+        Storage::disk('local')->append("logs/logs-$dateFile.log", "$size bytes | $name | $date");
     }
 
     public function createFolder()
@@ -41,24 +38,13 @@ class DashboardController extends Controller
 
     public function getExifData($req)
     {
-        $data = Image::make(public_path("../storage/app/files/$req"))->exif();
-
-//        if (isset($data['GPSLatitude'])) {
-//            $lat = eval('return ' . $data['GPSLatitude'][0] . ';')
-//                + (eval('return ' . $data['GPSLatitude'][1] . ';') / 60)
-//                + (eval('return ' . $data['GPSLatitude'][2] . ';') / 3600);
-//
-//            $lng = eval('return ' . $data['GPSLongitude'][0] . ';')
-//                + (eval('return ' . $data['GPSLongitude'][1] . ';') / 60)
-//                + (eval('return ' . $data['GPSLongitude'][2] . ';') / 3600);
-//
-//            echo "$lat, $lng";
-        return $data;
+        return Image::make(public_path("../storage/app/files/$reg"))->exif();
     }
 
     public function showFileNames()
     {
         $this->createFolder();
+//        $this->getExifData();
         $path = public_path('../storage/app/files');
         $files = File::allFiles($path);
 

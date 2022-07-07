@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use App\Rules\IsValidPassword;
+use App\Models\Attempts;
 
 class CustomAuthController extends Controller
 {
@@ -51,16 +52,24 @@ class CustomAuthController extends Controller
             'password' => 'required|min:6|max:36',
         ]);
         $user = User::where('email', '=', $request->email)->first();
-        if ($user) {
-            if (Hash::check($request->password, $user->password)) {
-                $request->session()->put('loginId', $user->id);
-                return redirect('dashboard');
-            } else {
-                return back()->with('fail', 'Password not matches');
-            }
+        Attempts::deleteUsersAttempts();
+        if (Attempts::findIpAttempts($this->getUserIp()) >= 3) {
+            return back()->with('fail', 'Attempts count reach. 5 minute ban.');
         } else {
-            return back()->with('fail', 'This email if not registered');
+            if ($user) {
+                if (Hash::check($request->password, $user->password)) {
+                    $request->session()->put('loginId', $user->id);
+                    return redirect('dashboard');
+                } else {
+                    Attempts::addIpAttempts($this->getUserIp(), $request->email);
+                    return back()->with('fail', 'Password not matches');
+                }
+            } else {
+                Attempts::addIpAttempts($this->getUserIp(), $request->email);
+                return back()->with('fail', 'This email if not registered');
+            }
         }
+
     }
 
     public function showDashboard()
@@ -79,5 +88,18 @@ class CustomAuthController extends Controller
             return redirect('/login');
         }
         return redirect('/login');
+    }
+
+    public function getUserIp()
+    {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+
+        return $ip;
     }
 }
