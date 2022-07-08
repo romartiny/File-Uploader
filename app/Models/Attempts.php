@@ -25,7 +25,7 @@ class Attempts extends Model
 
     public static function findIpAttempts($ip)
     {
-        return DB::delete("SELECT * FROM attempts WHERE ip = '$ip'"); //fix
+        return DB::select("SELECT * FROM attempts WHERE ip = '$ip'"); //fix
     }
 
     public static function deleteUsersAttempts()

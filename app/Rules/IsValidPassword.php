@@ -63,35 +63,35 @@ class IsValidPassword implements Rule
             case ! $this->uppercasePasses
                 && $this->numericPasses
                 && $this->specialCharacterPasses:
-                return 'The :attribute must be at least 6 characters and contain at least one uppercase character.';
+                return __('messages.first');
 
             case ! $this->numericPasses
                 && $this->uppercasePasses
                 && $this->specialCharacterPasses:
-                return 'The :attribute must be at least 6 characters and contain at least one number.';
+                return __('messages.second');
 
             case ! $this->specialCharacterPasses
                 && $this->uppercasePasses
                 && $this->numericPasses:
-                return 'The :attribute must be at least 6 characters and contain at least one special character.';
+                return __('messages.third');
 
             case ! $this->uppercasePasses
                 && ! $this->numericPasses
                 && $this->specialCharacterPasses:
-                return 'The :attribute must be at least 6 characters and contain at least one uppercase character and one number.';
+                return __('messages.fourth');
 
             case ! $this->uppercasePasses
                 && ! $this->specialCharacterPasses
                 && $this->numericPasses:
-                return 'The :attribute must be at least 6 characters and contain at least one uppercase character and one special character.';
+                return __('messages.fifth');
 
             case ! $this->uppercasePasses
                 && ! $this->numericPasses
                 && ! $this->specialCharacterPasses:
-                return 'The :attribute must be at least 6 characters and contain at least one uppercase character, one number, and one special character.';
+                return __('messages.sixth');
 
             default:
-                return 'The :attribute must be at least 6 characters.';
+                return __('messages.def');
         }
     }
 }
