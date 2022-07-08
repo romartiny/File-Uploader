@@ -63,35 +63,35 @@ class IsValidPassword implements Rule
             case ! $this->uppercasePasses
                 && $this->numericPasses
                 && $this->specialCharacterPasses:
-                return __('messages.first');
+                return __('messages.loginErrorWithSixCharactersAndUppercaseCharacter');
 
             case ! $this->numericPasses
                 && $this->uppercasePasses
                 && $this->specialCharacterPasses:
-                return __('messages.second');
+                return __('messages.loginErrorWithSixCharactersAndOneNumber');
 
             case ! $this->specialCharacterPasses
                 && $this->uppercasePasses
                 && $this->numericPasses:
-                return __('messages.third');
+                return __('messages.loginErrorWithSixAndSpecialCharacter');
 
             case ! $this->uppercasePasses
                 && ! $this->numericPasses
                 && $this->specialCharacterPasses:
-                return __('messages.fourth');
+                return __('messages.loginErrorWithSixAndUppercaseCharacterAndOneNumber');
 
             case ! $this->uppercasePasses
                 && ! $this->specialCharacterPasses
                 && $this->numericPasses:
-                return __('messages.fifth');
+                return __('messages.loginErrorWithSixAndOneUppercaseCharacterAndSpecialCharacter');
 
             case ! $this->uppercasePasses
                 && ! $this->numericPasses
                 && ! $this->specialCharacterPasses:
-                return __('messages.sixth');
+                return __('messages.loginErrorWithSixAndOneUppercaseCharacterAndOneNumber');
 
             default:
-                return __('messages.def');
+                return __('messages.loginErrorDefault');
         }
     }
 }
